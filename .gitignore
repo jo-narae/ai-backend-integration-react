@@ -1,0 +1,13 @@
+node_modules
+dist
+dist-ssr
+*.local
+.env
+.vite
+*.log
+.DS_Store
+
+# TS/Vite 빌드 산출물 (소스 아님)
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
