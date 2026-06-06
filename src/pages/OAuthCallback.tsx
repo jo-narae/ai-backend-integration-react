@@ -9,8 +9,8 @@ import { useAuth } from '../auth/AuthContext';
  * http://localhost:5173/oauth/callback?token=<JWT> 로 리다이렉트합니다.
  * 이 페이지는 쿼리스트링의 token을 꺼내 세션에 저장하고 /chat 으로 이동합니다.
  *
- * username은 별도로 전달되지 않으므로 JWT의 subject(sub) 클레임을 디코드해 사용합니다.
- * (서명 검증은 백엔드가 수행하며, 여기서는 화면 표시용으로만 payload를 읽습니다.)
+ * username/role은 별도로 전달되지 않으므로 JWT의 subject(sub)·role 클레임을 디코드해 사용합니다.
+ * (서명 검증은 백엔드가 수행하며, 여기서는 화면 표시·역할 가드용으로만 payload를 읽습니다.)
  */
 export default function OAuthCallback() {
   const [params] = useSearchParams();
@@ -30,8 +30,10 @@ export default function OAuthCallback() {
       return;
     }
 
-    const username = usernameFromJwt(token) ?? 'unknown';
-    setSession(token, username);
+    const claims = claimsFromJwt(token);
+    const username = (claims?.sub as string) ?? 'unknown';
+    const role = (claims?.role as string) ?? 'USER';
+    setSession(token, username, role);
     navigate('/chat', { replace: true });
   }, [params, navigate, setSession]);
 
@@ -54,8 +56,8 @@ export default function OAuthCallback() {
   );
 }
 
-/** JWT payload의 subject(sub)를 디코드합니다. 실패 시 null. */
-function usernameFromJwt(token: string): string | null {
+/** JWT payload(sub, role 등)를 디코드합니다. 실패 시 null. */
+function claimsFromJwt(token: string): Record<string, unknown> | null {
   try {
     const payload = token.split('.')[1];
     const base64 = payload.replace(/-/g, '+').replace(/_/g, '/');
@@ -65,7 +67,7 @@ function usernameFromJwt(token: string): string | null {
         .map((c) => '%' + c.charCodeAt(0).toString(16).padStart(2, '0'))
         .join(''),
     );
-    return JSON.parse(json).sub ?? null;
+    return JSON.parse(json);
   } catch {
     return null;
   }

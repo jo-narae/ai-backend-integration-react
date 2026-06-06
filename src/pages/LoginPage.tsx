@@ -24,7 +24,7 @@ export default function LoginPage() {
         await signup(username, password);
       }
       const res = await login(username, password);
-      setSession(res.token, res.username);
+      setSession(res.token, res.username, res.role);
       navigate('/chat', { replace: true });
     } catch (err) {
       if (axios.isAxiosError(err)) {

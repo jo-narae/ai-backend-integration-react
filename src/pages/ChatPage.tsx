@@ -1,5 +1,5 @@
 import { FormEvent, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { postChat } from '../api/chat';
 import { useAuth } from '../auth/AuthContext';
@@ -11,7 +11,7 @@ interface Message {
 }
 
 export default function ChatPage() {
-  const { username, clear } = useAuth();
+  const { username, role, clear } = useAuth();
   const navigate = useNavigate();
 
   const [prompt, setPrompt] = useState('');
@@ -55,9 +55,12 @@ export default function ChatPage() {
     <div className="container">
       <div className="top">
         <h1>채팅</h1>
-        <button type="button" onClick={handleLogout}>
-          로그아웃 ({username})
-        </button>
+        <div className="actions">
+          {role === 'ADMIN' && <Link to="/admin">관리자</Link>}
+          <button type="button" onClick={handleLogout}>
+            로그아웃 ({username})
+          </button>
+        </div>
       </div>
 
       {messages.map((m, i) => (

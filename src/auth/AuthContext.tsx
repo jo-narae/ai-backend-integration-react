@@ -3,10 +3,11 @@ import { createContext, useContext, useState, ReactNode } from 'react';
 interface AuthState {
   token: string | null;
   username: string | null;
+  role: string | null;
 }
 
 interface AuthContextValue extends AuthState {
-  setSession: (token: string, username: string) => void;
+  setSession: (token: string, username: string, role: string) => void;
   clear: () => void;
 }
 
@@ -16,18 +17,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>(() => ({
     token: localStorage.getItem('token'),
     username: localStorage.getItem('username'),
+    role: localStorage.getItem('role'),
   }));
 
-  const setSession = (token: string, username: string) => {
+  const setSession = (token: string, username: string, role: string) => {
     localStorage.setItem('token', token);
     localStorage.setItem('username', username);
-    setState({ token, username });
+    localStorage.setItem('role', role);
+    setState({ token, username, role });
   };
 
   const clear = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('username');
-    setState({ token: null, username: null });
+    localStorage.removeItem('role');
+    setState({ token: null, username: null, role: null });
   };
 
   return (

@@ -115,3 +115,9 @@ button:disabled {
   justify-content: space-between;
   align-items: center;
 }
+
+/* 사용자 관리 행의 역할 변경·삭제 버튼을 가로로 배치 */
+.actions {
+  display: flex;
+  gap: 8px;
+}
