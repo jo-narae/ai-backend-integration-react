@@ -56,6 +56,7 @@ export default function ChatPage() {
       <div className="top">
         <h1>채팅</h1>
         <div className="actions">
+          <Link to="/rag">문서 QA</Link>
           {role === 'ADMIN' && <Link to="/admin">관리자</Link>}
           <button type="button" onClick={handleLogout}>
             로그아웃 ({username})

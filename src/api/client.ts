@@ -20,6 +20,12 @@ apiClient.interceptors.request.use((config: InternalAxiosRequestConfig) => {
   if (token) {
     config.headers.set('Authorization', `Bearer ${token}`);
   }
+  // 파일 업로드(FormData)는 Content-Type을 지워 브라우저가 multipart/form-data; boundary=... 를
+  // 직접 설정하게 합니다. 인스턴스 기본값 application/json 이 남으면 axios가 FormData를 JSON으로
+  // 직렬화해, 서버가 "Content-Type 'application/json' is not supported"로 거부합니다.
+  if (typeof FormData !== 'undefined' && config.data instanceof FormData) {
+    config.headers.delete('Content-Type');
+  }
   return config;
 });
 

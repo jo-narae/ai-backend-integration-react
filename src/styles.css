@@ -120,4 +120,39 @@ button:disabled {
 .actions {
   display: flex;
   gap: 8px;
+  align-items: center;
+}
+
+/* 네비 링크(채팅·문서 QA·관리자)를 버튼과 세로 정렬 */
+.actions a {
+  font-size: 0.875rem;
+  color: #4f46e5;
+  text-decoration: none;
+}
+
+.actions a:hover {
+  text-decoration: underline;
+}
+
+/* RAG 페이지의 업로드·질의 구획 */
+.section {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.section h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #374151;
+}
+
+/* 인제스트 결과 안내 박스 */
+.ingest-result {
+  margin-top: 12px;
+  padding: 10px 12px;
+  background: #ecfdf5;
+  color: #065f46;
+  border-radius: 8px;
+  font-size: 0.875rem;
 }

@@ -1,6 +1,7 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 import LoginPage from './pages/LoginPage';
 import ChatPage from './pages/ChatPage';
+import RagPage from './pages/RagPage';
 import AdminPage from './pages/AdminPage';
 import OAuthCallback from './pages/OAuthCallback';
 import ProtectedRoute from './auth/ProtectedRoute';
@@ -16,6 +17,14 @@ export default function App() {
         element={
           <ProtectedRoute>
             <ChatPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/rag"
+        element={
+          <ProtectedRoute>
+            <RagPage />
           </ProtectedRoute>
         }
       />
